@@ -10,7 +10,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const db = mysql.createConnection(
+const dbConnection = mysql.createConnection(
   {
     database: "employee_db",
     host: "localhost",
@@ -19,3 +19,10 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the employee_db database.`)
 );
+
+init();
+
+function init() {
+  console.log("Connection initialized");
+  prompt();
+}
