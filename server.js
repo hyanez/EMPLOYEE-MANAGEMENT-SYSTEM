@@ -72,3 +72,21 @@ function prompt() {
       }
     });
 }
+
+function viewEmployees() {}
+
+function addEmployee() {}
+
+function updateRole() {}
+
+function viewRoles() {}
+
+function viewDepartments() {}
+
+function addDepartment() {}
+
+function quit() {}
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
