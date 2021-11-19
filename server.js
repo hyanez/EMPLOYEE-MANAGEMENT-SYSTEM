@@ -150,29 +150,30 @@ function addEmployee() {
 }
 
 function updateRole() {
-  const employeeArr = res.map(
-    ({ first_name, last_name }) => `${first_name} ${last_name}`
-  );
   inquirer
     .prompt([
       {
         type: "input",
-        message: "Which employee's role would you like to update? ",
-        name: "employeeName",
-        choices: employeeArr,
+        message: "What is the employee's first name would you like to update? ",
+        name: "first_name",
       },
       {
         type: "input",
-        message: `What role do you wish to give ${employeeName} ? `,
+        message: "What is the employee's last name would you like to update? ",
+        name: "last_name",
+      },
+      {
+        type: "input",
+        message: `What role do you wish to give the employee ? `,
         name: "title",
       },
     ])
     .then(function (res) {
       dbConnection.query(
-        `UPDATE employee SET ? WHERE ?`,
+        `UPDATE employee SET ? WHERE id = role_id`,
         {
-          first_name: res.employeeArr[0],
-          last_name: res.employeeArr[1],
+          first_name: res.first_name,
+          last_name: res.last_name,
           title: res.title,
         },
         function (err) {
