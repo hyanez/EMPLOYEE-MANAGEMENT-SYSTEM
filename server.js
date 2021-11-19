@@ -2,8 +2,6 @@
 const express = require("express");
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
-const { listenerCount, mainModule } = require("process");
-const { SSL_OP_EPHEMERAL_RSA } = require("constants");
 require("console.table");
 
 const PORT = process.env.PORT || 3001;
