@@ -149,7 +149,39 @@ function addEmployee() {
     });
 }
 
-function updateRole() {}
+function updateRole() {
+  const employeeArr = res.map(
+    ({ first_name, last_name }) => `${first_name} ${last_name}`
+  );
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Which employee's role would you like to update? ",
+        name: "employeeName",
+        choices: employeeArr,
+      },
+      {
+        type: "input",
+        message: `What role do you wish to give ${employeeName} ? `,
+        name: "title",
+      },
+    ])
+    .then(function (res) {
+      dbConnection.query(
+        `UPDATE employee SET ? WHERE ?`,
+        {
+          first_name: res.employeeArr[0],
+          last_name: res.employeeArr[1],
+          title: res.title,
+        },
+        function (err) {
+          if (err) throw err;
+          prompt();
+        }
+      );
+    });
+}
 
 function viewRoles() {
   dbConnection.query(`SELECT * FROM role;`, function (err, res) {
@@ -248,11 +280,6 @@ function addDepartment() {
       );
     });
 }
-
-// function exit() {
-//   console.log("Exiting server...!");
-//   return;
-// }
 
 function quit() {
   console.log("Exiting Server...!");
