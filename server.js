@@ -2,7 +2,8 @@
 const express = require("express");
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
-const { listenerCount } = require("process");
+const { listenerCount, mainModule } = require("process");
+const { SSL_OP_EPHEMERAL_RSA } = require("constants");
 require("console.table");
 
 const PORT = process.env.PORT || 3001;
@@ -39,6 +40,7 @@ function prompt() {
           "Add Employee",
           "Update Employee Role",
           "View All Roles",
+          "Add Role",
           "View All Departments",
           "Add Department",
           "Quit",
@@ -59,6 +61,9 @@ function prompt() {
           break;
         case "View All Roles":
           viewRoles();
+          break;
+        case "Add Role":
+          addRole();
           break;
         case "View All Departments":
           viewDepartments();
@@ -84,23 +89,175 @@ function viewEmployees() {
     function (err, res) {
       if (err) throw err;
       console.log("\n");
+      console.log(
+        "============================== EMPLOYEES =============================="
+      );
+      console.log("\n");
       console.table(res);
       prompt();
     }
   );
 }
 
-function addEmployee() {}
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is the ID of the Employee you would like to add ? ",
+        name: "id",
+      },
+      {
+        type: "input",
+        message:
+          "What is the first name of the employee you would like to add ? ",
+        name: "first_name",
+      },
+      {
+        type: "input",
+        message:
+          "What is the last name of the employee you would like to add ? ",
+        name: "last_name",
+      },
+      {
+        type: "input",
+        message: "What is the role id of the employee you would like to add ? ",
+        name: "role_id",
+      },
+      {
+        type: "input",
+        message:
+          "What is the manager id of the employee you would like to add ? ",
+        name: "manager_id",
+      },
+    ])
+    .then(function (res) {
+      dbConnection.query(
+        `INSERT INTO employee SET ?`,
+        {
+          id: res.id,
+          first_name: res.first_name,
+          last_name: res.last_name,
+          role_id: res.id,
+          manager_id: res.manager_id,
+        },
+        function (err) {
+          if (err) throw err;
+          prompt();
+        }
+      );
+    });
+}
 
 function updateRole() {}
 
-function viewRoles() {}
+function viewRoles() {
+  dbConnection.query(`SELECT * FROM role;`, function (err, res) {
+    if (err) throw err;
+    console.log("\n");
+    console.log(
+      "============================== ROLES =============================="
+    );
+    console.log("\n");
+    console.table(res);
+    prompt();
+  });
+}
 
-function viewDepartments() {}
+function viewDepartments() {
+  dbConnection.query(`SELECT * FROM department;`, function (err, res) {
+    if (err) throw err;
+    console.log("\n");
+    console.log(
+      "============================== DEPARTMENTS =============================="
+    );
+    console.log("\n");
+    console.table(res);
+    prompt();
+  });
+}
 
-function addDepartment() {}
+function addRole() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is the ID of the role you would like to add ? ",
+        name: "id",
+      },
+      {
+        type: "input",
+        message: "What is the name of the role you would like to add ? ",
+        name: "title",
+      },
+      {
+        type: "input",
+        message:
+          "What is the salary of the department you would like to add ? ",
+        name: "salary",
+      },
+      {
+        type: "input",
+        message:
+          "What is the department ID of the department you would like to add ? ",
+        name: "department_id",
+      },
+    ])
+    .then(function (res) {
+      dbConnection.query(
+        `INSERT INTO role SET ?`,
+        {
+          id: res.id,
+          title: res.title,
+          salary: res.salary,
+          department_id: res.department_id,
+        },
+        function (err) {
+          if (err) throw err;
+          prompt();
+        }
+      );
+    });
+}
 
-function quit() {}
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is the ID of the department you would like to add ? ",
+        name: "id",
+      },
+      {
+        type: "input",
+        message: "What is the name of the department you would like to add ? ",
+        name: "name",
+      },
+    ])
+    .then(function (res) {
+      dbConnection.query(
+        `INSERT INTO department SET ?`,
+        {
+          id: res.id,
+          name: res.name,
+        },
+        function (err) {
+          if (err) throw err;
+          prompt();
+        }
+      );
+    });
+}
+
+// function exit() {
+//   console.log("Exiting server...!");
+//   return;
+// }
+
+function quit() {
+  console.log("Exiting Server...!");
+  process.exit();
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
