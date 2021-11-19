@@ -16,10 +16,10 @@ SO THAT I can organize and plan my business
 
 The following video shows an example of the application being used from the command line:
 
-[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./assets/12-sql-homework-video-thumbnail.png)](https://2u-20.wistia.com/medias/2lnle7xnpk)
+[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./assets/sql-hw-video.png)](https://watch.screencastify.com/v/7FhBRBSLd1e4N5TLz5Pk)
 
 ## Links
 
 - [Deployed Link](https://hyanez.github.io/TEAM-PROFILE-GENERATOR/)
 - [Github Link](https://github.com/hyanez/TEAM-PROFILE-GENERATOR)
-- [Link to Video Demonstration](https://watch.screencastify.com/v/dxQfH0Nml39GM7PzMZLF)
+- [Link to Video Demonstration](https://watch.screencastify.com/v/7FhBRBSLd1e4N5TLz5Pk)
